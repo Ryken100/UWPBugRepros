@@ -106,6 +106,7 @@ namespace InjectedPenPressure
 
             inputInjector.InjectPenInput(injectedPenInfo);
 
+            // Release the pen input after a second
             await Task.Delay(1000);
 
             injectedPenInfo = new InjectedInputPenInfo()
