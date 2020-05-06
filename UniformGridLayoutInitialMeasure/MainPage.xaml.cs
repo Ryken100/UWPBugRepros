@@ -25,6 +25,17 @@ namespace UniformGridLayoutInitialMeasure
         public MainPage()
         {
             this.InitializeComponent();
+            itemsRepeater.ItemsSource = new int[100];
+        }
+
+        private void dataTemplateBox_Checked(object sender, RoutedEventArgs e)
+        {
+            itemsRepeater.ItemTemplate = aspectRatioConstrained;
+        }
+
+        private void dataTemplateBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            itemsRepeater.ItemTemplate = notAspectRatioConstrained;
         }
     }
 }

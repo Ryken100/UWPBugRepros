@@ -5,10 +5,46 @@
     xmlns:local="using:UniformGridLayoutInitialMeasure"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.Resources>
+        <!-- This DataTemplate must maintain a 16:9 aspect ratio, meaning the wider it gets the taller it gets, and vice versa -->
+        <DataTemplate x:Name="aspectRatioConstrained">
+            <Image Stretch="Uniform" Source="image.jpg" VerticalAlignment="Top"/>
+        </DataTemplate>
+        <!-- This DataTemplate is not aspect ratio constrained, meaning its width does not affect its height, and vice versa -->
+        <DataTemplate x:Name="notAspectRatioConstrained">
+            <Image Stretch="Uniform" Source="image.jpg" Height="168.75" />
+        </DataTemplate>
+    </Page.Resources>
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1">
+            <muxc:ItemsRepeater x:Name="itemsRepeater" ItemTemplate="{StaticResource aspectRatioConstrained}">
+                <muxc:ItemsRepeater.Layout>
+                    <muxc:UniformGridLayout MinItemWidth="300" ItemsStretch="Fill" />
+                </muxc:ItemsRepeater.Layout>
+            </muxc:ItemsRepeater>
+        </ScrollViewer>
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="infoButton" Content="Information" Margin="12">
+                <Button.Flyout>
+                    <Flyout>
+                        <TextBlock FontSize="15" TextWrapping="Wrap" MaxWidth="360">
+                        WinUI's UniformGridLayout measures the size of the first element in the ItemRepeater, and then uses the height returned by that measurement as the height of each row of of items.
+                        However, it performs that initial measurement using the full width of the ItemsRepeater as a parameter, instead of the specified UniformGridLayout.MinItemWidth.
+                        That can lead to issues with images, and other elements that are constrained to an aspect ratio, where an increase in width leads to a proportional increase in height.
+                        <LineBreak /><LineBreak />
+                        In this repro, you can see that as the window is widened, the height of each row increases proportionally, leading to large amounts of white space.
+                        </TextBlock>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+            <CheckBox x:Name="dataTemplateBox" IsChecked="True" Content="Use DataTemplate that is constrained to an aspect ratio" Checked="dataTemplateBox_Checked" Unchecked="dataTemplateBox_Unchecked" />
+        </StackPanel>
     </Grid>
 </Page>
