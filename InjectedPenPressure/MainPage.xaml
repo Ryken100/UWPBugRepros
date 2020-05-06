@@ -1,0 +1,55 @@
+﻿<Page
+    x:Class="InjectedPenPressure.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:InjectedPenPressure"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="TopTextStyle">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemBaseMediumLowColor}" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+        <Style TargetType="TextBlock" x:Key="PressureStyle">
+            <Setter Property="FontSize" Value="25" />
+            <Setter Property="FontWeight" Value="SemiLight" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemBaseMediumHighColor}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!-- Pointer inputs on topGrid will be injected onto bottomGrid as pen inputs. Pressure from the topGrid inputs will be carried over into the InjectedPenInput. -->
+        <Grid x:Name="topGrid" Background="Transparent" PointerPressed="topGrid_PointerPressed" PointerMoved="topGrid_PointerMoved" PointerReleased="topGrid_PointerReleased" PointerExited="topGrid_PointerExited">
+            <TextBlock Style="{StaticResource TopTextStyle}">Tap or click the top portion to inject pen input in the bottom portion. Or you can use the "Inject an input" button below to inject an input with pressure equal to the value of the slider beside it.</TextBlock>
+            <TextBlock Style="{StaticResource PressureStyle}">
+                Pressure: <Run x:Name="topPressureRun" FontWeight="SemiBold" Text="0" />
+            </TextBlock>
+        </Grid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <Slider x:Name="pressureSlider" Header="Pressure" Minimum="0" Value="0.5" Maximum="1" SmallChange="0.05" Width="300" Margin="0, 0, 8, 0" StepFrequency="0.05" />
+            <Button x:Name="manualInputButton" Content="Inject an input" Click="manualInputButton_Click" />
+        </StackPanel>
+        <Rectangle Height="3" VerticalAlignment="Bottom" Fill="{ThemeResource SystemBaseLowColor}" />
+        <Grid x:Name="bottomGrid" Grid.Row="1" Background="Transparent" PointerReleased="bottomGrid_PointerReleased" PointerPressed="bottomGrid_PointerPressed" PointerMoved="bottomGrid_PointerMoved" PointerExited="bottomGrid_PointerExited">
+            <TextBlock Style="{StaticResource TopTextStyle}">The injected pressure should be the same as the pressure above, but it will likely be scaled by 0.25 due to a bug in the input injection APIs.</TextBlock>
+            <TextBlock Style="{StaticResource PressureStyle}">
+                Injected Pressure: <Run x:Name="bottomPressureRun" FontWeight="SemiBold" Text="0" />
+            </TextBlock>
+        </Grid>
+    </Grid>
+</Page>
