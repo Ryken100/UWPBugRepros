@@ -41,7 +41,7 @@
             </TextBlock>
         </Grid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Slider x:Name="pressureSlider" Header="Pressure" Minimum="0" Value="0.5" Maximum="1" SmallChange="0.05" Width="300" Margin="0, 0, 8, 0" StepFrequency="0.05" />
+            <Slider x:Name="pressureSlider" Header="Pressure" Minimum="0" Value="0.5" Maximum="4" SmallChange="0.05" Width="300" Margin="0, 0, 8, 0" StepFrequency="0.05" />
             <Button x:Name="manualInputButton" Content="Inject an input" Click="manualInputButton_Click" />
         </StackPanel>
         <Rectangle Height="3" VerticalAlignment="Bottom" Fill="{ThemeResource SystemBaseLowColor}" />
