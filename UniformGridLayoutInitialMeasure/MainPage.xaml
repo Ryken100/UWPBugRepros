@@ -10,13 +10,18 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <!-- This DataTemplate must maintain a 16:9 aspect ratio, meaning the wider it gets the taller it gets, and vice versa -->
-        <DataTemplate x:Name="aspectRatioConstrained">
-            <Image Stretch="Uniform" Source="image.jpg" VerticalAlignment="Top"/>
+        <DataTemplate x:Name="aspectRatioConstrained" x:DataType="x:Int32">
+            <Grid>
+                <Image Stretch="Uniform" Source="image.jpg" VerticalAlignment="Top" Opacity="0.5"/>
+                <TextBlock FontSize="30" Text="{x:Bind}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
         </DataTemplate>
         <!-- This DataTemplate is not aspect ratio constrained, meaning its width does not affect its height, and vice versa -->
         <DataTemplate x:Name="notAspectRatioConstrained">
             <Image Stretch="Uniform" Source="image.jpg" Height="168.75" />
         </DataTemplate>
+        <muxc:UniformGridLayout x:Name="uniformGridLayout" MinItemWidth="300" ItemsStretch="Fill" />
+        <local:CustomGridLayout x:Name="customGridLayout" MinItemWidth="300" MinRowSpacing="0" MinColumnSpacing="0" MaxRowsOrColumns="3" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -24,11 +29,7 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="1">
-            <muxc:ItemsRepeater x:Name="itemsRepeater" ItemTemplate="{StaticResource aspectRatioConstrained}">
-                <muxc:ItemsRepeater.Layout>
-                    <muxc:UniformGridLayout MinItemWidth="300" ItemsStretch="Fill" />
-                </muxc:ItemsRepeater.Layout>
-            </muxc:ItemsRepeater>
+            <muxc:ItemsRepeater x:Name="itemsRepeater" Layout="{StaticResource uniformGridLayout}" ItemTemplate="{StaticResource aspectRatioConstrained}" />
         </ScrollViewer>
         <StackPanel Orientation="Horizontal">
             <Button x:Name="infoButton" Content="Information" Margin="12">

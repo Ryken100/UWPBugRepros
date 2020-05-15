@@ -25,7 +25,10 @@ namespace UniformGridLayoutInitialMeasure
         public MainPage()
         {
             this.InitializeComponent();
-            itemsRepeater.ItemsSource = new int[100];
+            var items = new int[100];
+            for (int i = 0; i < items.Length; i++)
+                items[i] = i;
+            itemsRepeater.ItemsSource = items;
         }
 
         private void dataTemplateBox_Checked(object sender, RoutedEventArgs e)
