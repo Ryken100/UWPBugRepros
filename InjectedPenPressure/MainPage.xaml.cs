@@ -165,6 +165,17 @@ namespace InjectedPenPressure
         }
         #endregion
 
+        string GetPressureText(double pressure)
+        {
+            if (pressure <= 1)
+            {
+                return $"Pressure: {pressure}";
+            }
+            else
+            {
+                return $"Pressure: {pressure} (injecting a pressure value greater than 1 will create an exception)";
+            }
+        }
         
     }
 }
